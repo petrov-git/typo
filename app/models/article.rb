@@ -405,6 +405,7 @@ class Article < Content
   end
 
   def add_comment(params)
+    #binding.pry
     comments.build(params)
   end
 
@@ -416,6 +417,21 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
+  def merge_with(id)
+    #binding.pry
+    article = Article.find(id)
+    self.body += article.body
+    article.comments.each do |comment|
+      parameters = {:ip=> comment.ip,:author=>comment.author, :published=> comment.published, :user=> comment.user, 
+        :user_agent=> comment.user_agent, :referrer=> comment.referrer, :permalink=> comment.permalink, 
+        :email=> comment.email, :url=> comment.url, :body=> comment.body}
+
+      self.add_comment(parameters)
+      #self.comments << Comment.build(:user_id => comment.user_id, :body => comment.body, :title => comment.title, :created_at => comment.created_at, :updated_at => comment.updated_at, :email => comment.email, :ip => comment.ip, :blog_name => comment.blog_name, :published => comment.published, :published_at => comment.published_at, :state => comment.state, :status_confirmed => comment.status_confirmed)
+      #self.comments << Comment.build(:user => comment.user, :body => comment.body)
+    end  
+  end
+  
   protected
 
   def set_published_at

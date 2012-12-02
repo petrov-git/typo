@@ -1,9 +1,11 @@
-<% form_tag :action => :merge, :method => 'post', :id => 'merge_with' do -%>
-   <h4><%= _("Merge Articles") %></h4>
-   <div>
-	    <%= _("Article ID") %>
-	    <%= text_field 'mergeBox', 'display_name', :class => 'medium' %>
-   </div>
-   <br />      
-   <%= link_to "Merge", :method => :post, :action => :merge, :a1 => @article.id, :a2 =>   %>
-<% end -%>
+<div class=''>
+	<% form_tag merge_artcle_path(article.id) do %>
+	  <h4><%= _("Merge Articles") %></h4>
+	  <div>
+	    <%= label_tag "merge_with", "Article ID" %>
+	    <%= text_field_tag 'merge_with', nil, :class => 'medium' %>
+	  </div>
+	  <br />
+	  <%= submit_tag "Merge" %>
+	<% end %>
+</div>
