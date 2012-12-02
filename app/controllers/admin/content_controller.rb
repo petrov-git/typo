@@ -115,8 +115,18 @@ class Admin::ContentController < Admin::BaseController
 
   def merge 
     #binding.pry
-    @article = Article.find params[:id]
-    @article.merge_with params[:merge_with]
+    if params[:id] != params[:merge_with]
+      @article = Article.find params[:id]
+      otherArticle = Article.find params[:merge_with]
+      
+      if @article == nil or otherArticle == nil
+        redirect_to :action => 'index'
+      end
+
+      @article.merge_with params[:merge_with]
+      @article.save!
+      otherArticle.destroy
+    end
     redirect_to :action => 'index'
   end
 
